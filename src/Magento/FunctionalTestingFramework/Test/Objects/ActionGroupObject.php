@@ -1,7 +1,7 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2017 Adobe
+ * All Rights Reserved.
  */
 
 namespace Magento\FunctionalTestingFramework\Test\Objects;
@@ -399,7 +399,7 @@ class ActionGroupObject
         if ($isInnerArgument) {
             return preg_replace("/(?<![\w]){$variableName}(?![(\w])/", $argumentValue, $attributeValue);
         } else {
-            return str_replace("{{{$variableName}}}", $argumentValue, $attributeValue);
+            return str_replace("{{{$variableName}}}", $argumentValue ?? "", $attributeValue ?? "");
         }
     }
 

@@ -1,8 +1,9 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2018 Adobe
+ * All Rights Reserved.
  */
+
 declare(strict_types = 1);
 
 namespace Magento\FunctionalTestingFramework\Console;
@@ -43,7 +44,7 @@ class GenerateSuiteCommand extends BaseGenerateCommand
      * @return integer|null|void
      * @throws \Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output):int
     {
         $force = $input->getOption('force');
         $debug = $input->getOption('debug') ?? MftfApplicationConfig::LEVEL_DEVELOPER; // for backward compatibility

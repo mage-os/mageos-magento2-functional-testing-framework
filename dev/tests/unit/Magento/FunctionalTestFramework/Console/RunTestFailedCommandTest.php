@@ -1,7 +1,7 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2021 Adobe
+ * All Rights Reserved.
  */
 
 namespace tests\unit\Magento\FunctionalTestFramework\Console;
@@ -37,9 +37,9 @@ class RunTestFailedCommandTest extends BaseGenerateCommandTest
      * Invoking private method to be able to test it.
      * NOTE: Bad practice don't repeat it.
      *
-     * @param $object
-     * @param $methodName
-     * @param array $parameters
+     * @param  $object
+     * @param  $methodName
+     * @param  array $parameters
      * @return mixed
      * @throws \ReflectionException
      */
@@ -47,7 +47,6 @@ class RunTestFailedCommandTest extends BaseGenerateCommandTest
     {
         $reflection = new \ReflectionClass(get_class($object));
         $method = $reflection->getMethod($methodName);
-        $method->setAccessible(true);
         return $method->invokeArgs($object, $parameters);
     }
 

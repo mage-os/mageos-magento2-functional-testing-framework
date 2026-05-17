@@ -1,8 +1,9 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2017 Adobe
+ * All Rights Reserved.
  */
+
 declare(strict_types=1);
 
 namespace tests\unit\Magento\FunctionalTestFramework\DataGenerator\Handlers;
@@ -323,7 +324,6 @@ class DataObjectHandlerTest extends MagentoTestCase
     private function mockDataObjectHandlerWithData(array $mockData): void
     {
         $dataObjectHandlerProperty = new ReflectionProperty(DataObjectHandler::class, "INSTANCE");
-        $dataObjectHandlerProperty->setAccessible(true);
         $dataObjectHandlerProperty->setValue(null, null);
 
         $mockDataProfileSchemaParser =  $this->createMock(DataProfileSchemaParser::class);
@@ -335,26 +335,23 @@ class DataObjectHandlerTest extends MagentoTestCase
         $mockObjectManagerInstance = $this->createMock(ObjectManager::class);
         $mockObjectManagerInstance
             ->method('create')
-            ->will(
-                $this->returnCallback(
-                    function (
-                        string $class,
-                        array $arguments = []
-                    ) use (
-                        $objectManager,
-                        $mockDataProfileSchemaParser
-                    ) {
-                        if ($class === DataProfileSchemaParser::class) {
-                            return $mockDataProfileSchemaParser;
-                        }
-
-                        return $objectManager->create($class, $arguments);
+            ->willReturnCallback(
+                function (
+                    string $class,
+                    array $arguments = []
+                ) use (
+                    $objectManager,
+                    $mockDataProfileSchemaParser
+                ) {
+                    if ($class === DataProfileSchemaParser::class) {
+                        return $mockDataProfileSchemaParser;
                     }
-                )
+
+                    return $objectManager->create($class, $arguments);
+                }
             );
 
         $property = new ReflectionProperty(ObjectManager::class, 'instance');
-        $property->setAccessible(true);
         $property->setValue(null, $mockObjectManagerInstance);
     }
 
@@ -366,11 +363,9 @@ class DataObjectHandlerTest extends MagentoTestCase
         parent::tearDownAfterClass();
 
         $dataObjectHandlerProperty = new ReflectionProperty(DataObjectHandler::class, "INSTANCE");
-        $dataObjectHandlerProperty->setAccessible(true);
         $dataObjectHandlerProperty->setValue(null, null);
 
         $objectManagerProperty = new ReflectionProperty(ObjectManager::class, 'instance');
-        $objectManagerProperty->setAccessible(true);
         $objectManagerProperty->setValue(null, null);
 
         TestLoggingUtil::getInstance()->clearMockLoggingUtil();

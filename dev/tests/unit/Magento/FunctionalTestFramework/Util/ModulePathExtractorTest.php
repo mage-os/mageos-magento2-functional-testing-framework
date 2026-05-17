@@ -1,8 +1,9 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2018 Adobe
+ * All Rights Reserved.
  */
+
 declare(strict_types=1);
 
 namespace tests\unit\Magento\FunctionalTestFramework\Util;
@@ -145,25 +146,21 @@ class ModulePathExtractorTest extends MagentoTestCase
         $objectManagerMockInstance = $this->createMock(ObjectManager::class);
         $objectManagerMockInstance
             ->method('create')
-            ->will(
-                $this->returnCallback(
-                    function ($class) use ($mockResolver) {
-                        if ($class === ModuleResolver::class) {
-                            return $mockResolver;
-                        }
-
-                        return null;
+            ->willReturnCallback(
+                function ($class) use ($mockResolver) {
+                    if ($class === ModuleResolver::class) {
+                        return $mockResolver;
                     }
-                )
+
+                    return null;
+                }
             );
 
         $objectManagerProperty = new ReflectionProperty(ObjectManager::class, 'instance');
-        $objectManagerProperty->setAccessible(true);
         $objectManagerProperty->setValue(null, $objectManagerMockInstance);
 
         $resolver = ModuleResolver::getInstance();
         $property = new ReflectionProperty(ModuleResolver::class, 'enabledModuleNameAndPaths');
-        $property->setAccessible(true);
         $property->setValue($resolver, $paths);
     }
 }

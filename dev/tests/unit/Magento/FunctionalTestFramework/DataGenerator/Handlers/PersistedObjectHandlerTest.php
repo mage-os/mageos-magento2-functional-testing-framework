@@ -1,8 +1,9 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2018 Adobe
+ * All Rights Reserved.
  */
+
 declare(strict_types=1);
 
 namespace tests\unit\Magento\FunctionalTestFramework\DataGenerator\Handlers;
@@ -16,6 +17,7 @@ use Magento\FunctionalTestingFramework\Exceptions\TestFrameworkException;
 use Magento\FunctionalTestingFramework\Exceptions\TestReferenceException;
 use Magento\FunctionalTestingFramework\ObjectManager;
 use Magento\FunctionalTestingFramework\ObjectManagerFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
 use ReflectionProperty;
 use tests\unit\Util\MagentoTestCase;
 use tests\unit\Util\TestLoggingUtil;
@@ -404,11 +406,11 @@ class PersistedObjectHandlerTest extends MagentoTestCase
      * @param string $type
      * @param string $scope
      * @param string $stepKey
-     * @dataProvider entityDataProvider
      *
      * @return void
      * @throws TestReferenceException
      */
+    #[DataProvider('entityDataProvider')]
     public function testRetrieveEntityValidField(
         string $name,
         string $key,
@@ -456,11 +458,11 @@ class PersistedObjectHandlerTest extends MagentoTestCase
      * @param string $type
      * @param string $scope
      * @param string $stepKey
-     * @dataProvider entityDataProvider
      *
      * @return void
      * @throws TestReferenceException|TestFrameworkException
      */
+    #[DataProvider('entityDataProvider')]
     public function testRetrieveEntityInValidField(
         string $name,
         string $key,
@@ -526,14 +528,13 @@ class PersistedObjectHandlerTest extends MagentoTestCase
      * Create mock curl handler.
      *
      * @param string $response
-     * @param array $parserOutput
+     * @param array  $parserOutput
      *
      * @return void
      */
     public function mockCurlHandler(string $response, array $parserOutput): void
     {
         $dataObjectHandler = new ReflectionProperty(DataObjectHandler::class, 'INSTANCE');
-        $dataObjectHandler->setAccessible(true);
         $dataObjectHandler->setValue(null, null);
 
         $dataProfileSchemaParser = $this->createMock(DataProfileSchemaParser::class);
@@ -556,24 +557,21 @@ class PersistedObjectHandlerTest extends MagentoTestCase
         $objectManagerMockInstance = $this->createMock(ObjectManager::class);
         $objectManagerMockInstance->expects($this->any())
             ->method('create')
-            ->will(
-                $this->returnCallback(
-                    function ($class, $arguments = []) use ($curlHandler, $objectManager, $dataProfileSchemaParser) {
-                        if ($class === CurlHandler::class) {
-                            return $curlHandler;
-                        }
-
-                        if ($class === DataProfileSchemaParser::class) {
-                            return $dataProfileSchemaParser;
-                        }
-
-                        return $objectManager->create($class, $arguments);
+            ->willReturnCallback(
+                function ($class, $arguments = []) use ($curlHandler, $objectManager, $dataProfileSchemaParser) {
+                    if ($class === CurlHandler::class) {
+                        return $curlHandler;
                     }
-                )
+
+                    if ($class === DataProfileSchemaParser::class) {
+                        return $dataProfileSchemaParser;
+                    }
+
+                    return $objectManager->create($class, $arguments);
+                }
             );
 
         $objectManagerProperty = new ReflectionProperty(ObjectManager::class, 'instance');
-        $objectManagerProperty->setAccessible(true);
         $objectManagerProperty->setValue(null, $objectManagerMockInstance);
     }
 
@@ -588,11 +586,9 @@ class PersistedObjectHandlerTest extends MagentoTestCase
 
         // Clear out Singleton between tests
         $persistedObjectHandlerProperty = new ReflectionProperty(PersistedObjectHandler::class, "INSTANCE");
-        $persistedObjectHandlerProperty->setAccessible(true);
         $persistedObjectHandlerProperty->setValue(null, null);
 
         $objectManagerProperty = new ReflectionProperty(ObjectManager::class, 'instance');
-        $objectManagerProperty->setAccessible(true);
         $objectManagerProperty->setValue(null, null);
 
         TestLoggingUtil::getInstance()->clearMockLoggingUtil();

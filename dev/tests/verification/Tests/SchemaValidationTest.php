@@ -1,8 +1,9 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2018 Adobe
+ * All Rights Reserved.
  */
+
 namespace tests\verification\Tests;
 
 use Magento\FunctionalTestingFramework\Config\MftfApplicationConfig;
@@ -21,7 +22,6 @@ class SchemaValidationTest extends MftfTestCase
     {
         $config = MftfApplicationConfig::getConfig();
         $property = new ReflectionProperty(MftfApplicationConfig::class, 'debugLevel');
-        $property->setAccessible(true);
         $property->setValue($config, MftfApplicationConfig::LEVEL_DEVELOPER);
 
         $testFile = ['testFile.xml' => "<tests><test name='testName'><annotations>a</annotations></test></tests>"];
@@ -42,7 +42,6 @@ class SchemaValidationTest extends MftfTestCase
     {
         $config = MftfApplicationConfig::getConfig();
         $property = new ReflectionProperty(MftfApplicationConfig::class, 'debugLevel');
-        $property->setAccessible(true);
         $property->setValue($config, MftfApplicationConfig::LEVEL_DEFAULT);
     }
 }

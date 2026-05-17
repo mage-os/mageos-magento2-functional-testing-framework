@@ -1,8 +1,9 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2017 Adobe
+ * All Rights Reserved.
  */
+
 namespace tests\unit\Util;
 
 use Magento\FunctionalTestingFramework\DataGenerator\Objects\OperationDefinitionObject;
@@ -39,6 +40,7 @@ class OperationDefinitionBuilder
 
     /**
      * Determines if api URL should remove magento_backend_name.
+     *
      * @var boolean
      */
     private $removeBackend;
@@ -68,7 +70,7 @@ class OperationDefinitionBuilder
     /**
      * Sets the name of the operation definition to be built.
      *
-     * @param string $name
+     * @param  string $name
      * @return OperationDefinitionBuilder
      */
     public function withName($name)
@@ -80,7 +82,7 @@ class OperationDefinitionBuilder
     /**
      * Sets the name of the operation for the object to be built.
      *
-     * @param string $operation
+     * @param  string $operation
      * @return OperationDefinitionBuilder
      */
     public function withOperation($operation)
@@ -92,7 +94,7 @@ class OperationDefinitionBuilder
     /**
      * Sets the name of the type of operation (e.g. create, delete)
      *
-     * @param string $type
+     * @param  string $type
      * @return OperationDefinitionBuilder
      */
     public function withType($type)
@@ -104,7 +106,7 @@ class OperationDefinitionBuilder
     /**
      * Takes an array of values => type or an array of operation elements and transforms into operation metadata.
      *
-     * @param array $metadata
+     * @param  array $metadata
      * @return OperationDefinitionBuilder
      */
     public function withMetadata($metadata)

@@ -1,14 +1,16 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2019 Adobe
+ * All Rights Reserved.
  */
+
 declare(strict_types=1);
 
 namespace tests\unit\Magento\FunctionalTestFramework\Util\Path;
 
 use Magento\FunctionalTestingFramework\Exceptions\TestFrameworkException;
 use Magento\FunctionalTestingFramework\Util\Path\FilePathFormatter;
+use PHPUnit\Framework\Attributes\DataProvider;
 use tests\unit\Util\MagentoTestCase;
 
 class FilePathFormatterTest extends MagentoTestCase
@@ -22,8 +24,8 @@ class FilePathFormatterTest extends MagentoTestCase
      *
      * @return void
      * @throws TestFrameworkException
-     * @dataProvider formatDataProvider
      */
+    #[DataProvider('formatDataProvider')]
     public function testFormat(string $path, ?bool $withTrailingSeparator, ?string $expectedPath): void
     {
         if (null !== $expectedPath) {
@@ -51,8 +53,8 @@ class FilePathFormatterTest extends MagentoTestCase
      *
      * @return void
      * @throws TestFrameworkException
-     * @dataProvider formatExceptionDataProvider
      */
+    #[DataProvider('formatExceptionDataProvider')]
     public function testFormatWithException(string $path, ?bool $withTrailingSeparator): void
     {
         $this->expectException(TestFrameworkException::class);

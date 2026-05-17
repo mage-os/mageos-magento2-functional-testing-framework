@@ -1,30 +1,31 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2021 Adobe
+ * All Rights Reserved.
  */
+
 namespace tests\unit\Magento\FunctionalTestFramework\Console;
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Magento\FunctionalTestingFramework\Exceptions\FastFailException;
 use Magento\FunctionalTestingFramework\Console\GenerateTestsCommand;
 
 class GenerateTestsCommandTest extends TestCase
 {
     /**
-     * @param mixed $time
-     * @param mixed $groups
-     * @param mixed $expected
+     * @param  mixed $time
+     * @param  mixed $groups
+     * @param  mixed $expected
      * @return void
-     * @dataProvider configParallelOptions
      * @throws \ReflectionException
      */
+    #[DataProvider('configParallelOptions')]
     public function testParseConfigParallelOptions($time, $groups, $expected): void
     {
         $command = new GenerateTestsCommand();
         $class = new \ReflectionClass($command);
         $method = $class->getMethod('parseConfigParallelOptions');
-        $method->setAccessible(true);
 
         if (is_array($expected)) {
             $actual = $method->invokeArgs($command, [$time, $groups]);

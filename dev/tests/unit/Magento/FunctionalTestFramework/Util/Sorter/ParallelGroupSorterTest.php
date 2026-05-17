@@ -1,8 +1,9 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2018 Adobe
+ * All Rights Reserved.
  */
+
 declare(strict_types=1);
 
 namespace tests\unit\Magento\FunctionalTestFramework\Util\Sorter;
@@ -495,14 +496,13 @@ class ParallelGroupSorterTest extends MagentoTestCase
     public static function tearDownAfterClass(): void
     {
         $instanceProperty = new ReflectionProperty(TestObjectHandler::class, 'testObjectHandler');
-        $instanceProperty->setAccessible(true);
         $instanceProperty->setValue(null, null);
     }
 
     /**
      * Mock test object and test object handler.
      *
-     * @param int $numberOfCalls
+     * @param int   $numberOfCalls
      * @param array $actionCount
      *
      * @return void
@@ -527,7 +527,6 @@ class ParallelGroupSorterTest extends MagentoTestCase
             ->willReturn($mockTest1);
 
         $instanceProperty = new ReflectionProperty(TestObjectHandler::class, 'testObjectHandler');
-        $instanceProperty->setAccessible(true);
         $instanceProperty->setValue($mockHandler, $mockHandler);
     }
 }

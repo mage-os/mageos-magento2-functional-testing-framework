@@ -1,8 +1,9 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2018 Adobe
+ * All Rights Reserved.
  */
+
 declare(strict_types=1);
 
 namespace tests\unit\Magento\FunctionalTestFramework\Suite;
@@ -357,18 +358,17 @@ class SuiteGeneratorTest extends MagentoTestCase
 
         $mockSuiteGeneratorService
             ->method('clearPreviousSessionConfigEntries')
-            ->will($this->returnCallback($mockVoidReturnCallback));
+            ->willReturnCallback($mockVoidReturnCallback);
 
         $mockSuiteGeneratorService
             ->method('appendEntriesToConfig')
-            ->will($this->returnCallback($mockVoidReturnCallback));
+            ->willReturnCallback($mockVoidReturnCallback);
 
         $mockSuiteGeneratorService
             ->method('generateRelevantGroupTests')
-            ->will($this->returnCallback($mockVoidReturnCallback));
+            ->willReturnCallback($mockVoidReturnCallback);
 
         $suiteGeneratorServiceProperty = new ReflectionProperty(SuiteGeneratorService::class, 'INSTANCE');
-        $suiteGeneratorServiceProperty->setAccessible(true);
         $suiteGeneratorServiceProperty->setValue(null, $mockSuiteGeneratorService);
 
         $mockDataParser = $this->createMock(TestDataParser::class);
@@ -390,34 +390,31 @@ class SuiteGeneratorTest extends MagentoTestCase
         $objectManagerMockInstance = $this->createMock(ObjectManager::class);
         $objectManagerMockInstance
             ->method('create')
-            ->will(
-                $this->returnCallback(
-                    function (
-                        string $class,
-                        array $arguments = []
-                    ) use (
-                        $mockDataParser,
-                        $mockSuiteDataParser,
-                        $mockGroupClass,
-                        $objectManager
-                    ) {
-                        if ($class === TestDataParser::class) {
-                            return $mockDataParser;
-                        }
-                        if ($class === SuiteDataParser::class) {
-                            return $mockSuiteDataParser;
-                        }
-                        if ($class === GroupClassGenerator::class) {
-                            return $mockGroupClass;
-                        }
-
-                        return $objectManager->create($class, $arguments);
+            ->willReturnCallback(
+                function (
+                    string $class,
+                    array $arguments = []
+                ) use (
+                    $mockDataParser,
+                    $mockSuiteDataParser,
+                    $mockGroupClass,
+                    $objectManager
+                ) {
+                    if ($class === TestDataParser::class) {
+                        return $mockDataParser;
                     }
-                )
+                    if ($class === SuiteDataParser::class) {
+                        return $mockSuiteDataParser;
+                    }
+                    if ($class === GroupClassGenerator::class) {
+                        return $mockGroupClass;
+                    }
+
+                    return $objectManager->create($class, $arguments);
+                }
             );
 
         $objectManagerProperty = new ReflectionProperty(ObjectManager::class, 'instance');
-        $objectManagerProperty->setAccessible(true);
         $objectManagerProperty->setValue(null, $objectManagerMockInstance);
     }
 
@@ -429,17 +426,14 @@ class SuiteGeneratorTest extends MagentoTestCase
     private function clearMockResolverProperties(): void
     {
         $property = new ReflectionProperty(SuiteGenerator::class, 'instance');
-        $property->setAccessible(true);
         $property->setValue(null, null);
 
         // clear test object handler value to inject parsed content
         $property = new ReflectionProperty(TestObjectHandler::class, 'testObjectHandler');
-        $property->setAccessible(true);
         $property->setValue(null, null);
 
         // clear suite object handler value to inject parsed content
         $property = new ReflectionProperty(SuiteObjectHandler::class, 'instance');
-        $property->setAccessible(true);
         $property->setValue(null, null);
     }
 
@@ -459,11 +453,9 @@ class SuiteGeneratorTest extends MagentoTestCase
         parent::tearDownAfterClass();
 
         $objectManagerProperty = new ReflectionProperty(ObjectManager::class, 'instance');
-        $objectManagerProperty->setAccessible(true);
         $objectManagerProperty->setValue(null, null);
 
         $suiteGeneratorServiceProperty = new ReflectionProperty(SuiteGeneratorService::class, 'INSTANCE');
-        $suiteGeneratorServiceProperty->setAccessible(true);
         $suiteGeneratorServiceProperty->setValue(null, null);
 
         TestLoggingUtil::getInstance()->clearMockLoggingUtil();

@@ -1,8 +1,9 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2019 Adobe
+ * All Rights Reserved.
  */
+
 declare(strict_types=1);
 
 namespace tests\unit\Magento\FunctionalTestFramework\Console;
@@ -27,18 +28,14 @@ class BaseGenerateCommandTest extends TestCase
     {
         $handler = TestObjectHandler::getInstance();
         $testsProperty = new ReflectionProperty(TestObjectHandler::class, 'tests');
-        $testsProperty->setAccessible(true);
         $testsProperty->setValue($handler, []);
         $testObjectHandlerProperty = new ReflectionProperty(TestObjectHandler::class, 'testObjectHandler');
-        $testObjectHandlerProperty->setAccessible(true);
         $testObjectHandlerProperty->setValue(null, $handler);
 
         $handler = SuiteObjectHandler::getInstance();
         $suiteObjectsProperty = new ReflectionProperty(SuiteObjectHandler::class, 'suiteObjects');
-        $suiteObjectsProperty->setAccessible(true);
         $suiteObjectsProperty->setValue($handler, []);
         $suiteObjectHandlerProperty = new ReflectionProperty(SuiteObjectHandler::class, 'instance');
-        $suiteObjectHandlerProperty->setAccessible(true);
         $suiteObjectHandlerProperty->setValue(null, $handler);
     }
 
@@ -212,33 +209,27 @@ class BaseGenerateCommandTest extends TestCase
         // bypass the initTestData method
         $testObjectHandlerClass = new ReflectionClass(TestObjectHandler::class);
         $constructor = $testObjectHandlerClass->getConstructor();
-        $constructor->setAccessible(true);
         $testObjectHandlerObject = $testObjectHandlerClass->newInstanceWithoutConstructor();
         $constructor->invoke($testObjectHandlerObject);
 
         $testObjectHandlerProperty = new ReflectionProperty(TestObjectHandler::class, 'testObjectHandler');
-        $testObjectHandlerProperty->setAccessible(true);
         $testObjectHandlerProperty->setValue(null, $testObjectHandlerObject);
 
         $handler = TestObjectHandler::getInstance();
         $property = new ReflectionProperty(TestObjectHandler::class, 'tests');
-        $property->setAccessible(true);
         $property->setValue($handler, $testArray);
 
         // bypass the initTestData method
         $suiteObjectHandlerClass = new ReflectionClass(SuiteObjectHandler::class);
         $constructor = $suiteObjectHandlerClass->getConstructor();
-        $constructor->setAccessible(true);
         $suiteObjectHandlerObject = $suiteObjectHandlerClass->newInstanceWithoutConstructor();
         $constructor->invoke($suiteObjectHandlerObject);
 
         $suiteObjectHandlerProperty = new ReflectionProperty(SuiteObjectHandler::class, 'instance');
-        $suiteObjectHandlerProperty->setAccessible(true);
         $suiteObjectHandlerProperty->setValue(null, $suiteObjectHandlerObject);
 
         $handler = SuiteObjectHandler::getInstance();
         $property = new ReflectionProperty(SuiteObjectHandler::class, 'suiteObjects');
-        $property->setAccessible(true);
         $property->setValue($handler, $suiteArray);
     }
 
@@ -255,7 +246,6 @@ class BaseGenerateCommandTest extends TestCase
         $command = new BaseGenerateCommand();
         $class = new ReflectionClass($command);
         $method = $class->getMethod('getTestAndSuiteConfiguration');
-        $method->setAccessible(true);
 
         return $method->invokeArgs($command, [$testArray]);
     }
@@ -273,7 +263,6 @@ class BaseGenerateCommandTest extends TestCase
         $command = new BaseGenerateCommand();
         $class = new ReflectionClass($command);
         $method = $class->getMethod('getGroupAndSuiteConfiguration');
-        $method->setAccessible(true);
 
         return $method->invokeArgs($command, [$groupArray]);
     }

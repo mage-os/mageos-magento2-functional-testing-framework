@@ -1,8 +1,9 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2019 Adobe
+ * All Rights Reserved.
  */
+
 declare(strict_types = 1);
 
 namespace Magento\FunctionalTestingFramework\Console;
@@ -62,7 +63,7 @@ class DoctorCommand extends Command
      * @throws TestFrameworkException
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output):int
     {
         // For output style
         $this->ioStyle = new SymfonyStyle($input, $output);

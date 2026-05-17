@@ -1,8 +1,9 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2020 Adobe
+ * All Rights Reserved.
  */
+
 declare(strict_types=1);
 
 namespace tests\unit\Magento\FunctionalTestFramework\StaticCheck;
@@ -29,10 +30,14 @@ use tests\unit\Util\MagentoTestCase;
  */
 class DeprecatedEntityUsageCheckTest extends MagentoTestCase
 {
-    /** @var DeprecatedEntityUsageCheck */
+    /**
+     * @var DeprecatedEntityUsageCheck
+     */
     private $staticCheck;
 
-    /** @var ReflectionClass*/
+    /**
+     * @var ReflectionClass
+     */
     private $staticCheckClass;
 
     /**
@@ -61,7 +66,6 @@ class DeprecatedEntityUsageCheckTest extends MagentoTestCase
             ->willReturn('/invalidPath');
 
         $loadAllXmlFiles = $this->staticCheckClass->getMethod('loadAllXMLFiles');
-        $loadAllXmlFiles->setAccessible(true);
 
         $this->expectException(InvalidArgumentException::class);
         $loadAllXmlFiles->invoke($this->staticCheck, $input);
@@ -255,7 +259,6 @@ class DeprecatedEntityUsageCheckTest extends MagentoTestCase
             ]
         ];
         $property = $this->staticCheckClass->getMethod('findViolatingMetadataReferences');
-        $property->setAccessible(true);
         $actual = $property->invoke($this->staticCheck, $references);
         $this->assertEquals($actual, $expected);
     }
@@ -278,7 +281,6 @@ class DeprecatedEntityUsageCheckTest extends MagentoTestCase
                 ';
 
         $property = $this->staticCheckClass->getMethod('isDeprecated');
-        $property->setAccessible(true);
         $output = $property->invoke($this->staticCheck, $contents);
         $this->assertTrue($output);
     }
@@ -296,7 +298,6 @@ class DeprecatedEntityUsageCheckTest extends MagentoTestCase
             OperationDefinitionObjectHandler::class,
             'INSTANCE'
         );
-        $operationDefinitionObjectHandlerProperty->setAccessible(true);
         $operationDefinitionObjectHandlerProperty->setValue(null, null);
 
         $mockOperationParser = $this->createMock(OperationDefinitionParser::class);
@@ -308,26 +309,23 @@ class DeprecatedEntityUsageCheckTest extends MagentoTestCase
         $mockObjectManagerInstance = $this->createMock(ObjectManager::class);
         $mockObjectManagerInstance
             ->method('create')
-            ->will(
-                $this->returnCallback(
-                    function (
-                        string $class,
-                        array $arguments = []
-                    ) use (
-                        $objectManager,
-                        $mockOperationParser
-                    ) {
-                        if ($class === OperationDefinitionParser::class) {
-                            return $mockOperationParser;
-                        }
-
-                        return $objectManager->create($class, $arguments);
+            ->willReturnCallback(
+                function (
+                    string $class,
+                    array $arguments = []
+                ) use (
+                    $objectManager,
+                    $mockOperationParser
+                ) {
+                    if ($class === OperationDefinitionParser::class) {
+                        return $mockOperationParser;
                     }
-                )
+
+                    return $objectManager->create($class, $arguments);
+                }
             );
 
         $property = new ReflectionProperty(ObjectManager::class, 'instance');
-        $property->setAccessible(true);
         $property->setValue(null, $mockObjectManagerInstance);
     }
 
@@ -342,11 +340,9 @@ class DeprecatedEntityUsageCheckTest extends MagentoTestCase
             OperationDefinitionObjectHandler::class,
             'INSTANCE'
         );
-        $operationDefinitionObjectHandlerProperty->setAccessible(true);
         $operationDefinitionObjectHandlerProperty->setValue(null, null);
 
         $objectManagerProperty = new ReflectionProperty(ObjectManager::class, 'instance');
-        $objectManagerProperty->setAccessible(true);
         $objectManagerProperty->setValue(null, null);
     }
 
@@ -361,7 +357,6 @@ class DeprecatedEntityUsageCheckTest extends MagentoTestCase
     public function callViolatingReferences(array $references)
     {
         $property = $this->staticCheckClass->getMethod('findViolatingReferences');
-        $property->setAccessible(true);
 
         return $property->invoke($this->staticCheck, $references);
     }

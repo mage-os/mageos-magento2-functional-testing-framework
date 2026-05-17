@@ -1,8 +1,9 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2018 Adobe
+ * All Rights Reserved.
  */
+
 declare(strict_types=1);
 
 namespace tests\unit\Magento\FunctionalTestFramework\Suite\Handlers;
@@ -89,12 +90,10 @@ class SuiteObjectHandlerTest extends MagentoTestCase
     {
         // clear test object handler value to inject parsed content
         $property = new ReflectionProperty(TestObjectHandler::class, 'testObjectHandler');
-        $property->setAccessible(true);
         $property->setValue(null, null);
 
         // clear suite object handler value to inject parsed content
         $property = new ReflectionProperty(SuiteObjectHandler::class, 'instance');
-        $property->setAccessible(true);
         $property->setValue(null, null);
 
         $mockDataParser = $this->createMock(TestDataParser::class);
@@ -110,24 +109,21 @@ class SuiteObjectHandlerTest extends MagentoTestCase
         $instance = $this->createMock(ObjectManager::class);
         $instance
             ->method('create')
-            ->will(
-                $this->returnCallback(
-                    function ($clazz) use ($mockDataParser, $mockSuiteDataParser) {
-                        if ($clazz === TestDataParser::class) {
-                            return $mockDataParser;
-                        }
-
-                        if ($clazz === SuiteDataParser::class) {
-                            return $mockSuiteDataParser;
-                        }
-
-                        return null;
+            ->willReturnCallback(
+                function ($clazz) use ($mockDataParser, $mockSuiteDataParser) {
+                    if ($clazz === TestDataParser::class) {
+                        return $mockDataParser;
                     }
-                )
+
+                    if ($clazz === SuiteDataParser::class) {
+                        return $mockSuiteDataParser;
+                    }
+
+                    return null;
+                }
             );
 
         $property = new ReflectionProperty(ObjectManager::class, 'instance');
-        $property->setAccessible(true);
         $property->setValue(null, $instance);
     }
 }

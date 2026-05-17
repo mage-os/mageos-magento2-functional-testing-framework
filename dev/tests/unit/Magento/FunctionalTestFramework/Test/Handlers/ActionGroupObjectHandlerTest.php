@@ -1,8 +1,9 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2019 Adobe
+ * All Rights Reserved.
  */
+
 declare(strict_types=1);
 
 namespace tests\unit\Magento\FunctionalTestFramework\Test\Handlers;
@@ -100,7 +101,6 @@ class ActionGroupObjectHandlerTest extends MagentoTestCase
     private function mockActionGroupObjectHandlerWithData(array $mockData): void
     {
         $actionGroupObjectHandlerProperty = new ReflectionProperty(ActionGroupObjectHandler::class, 'instance');
-        $actionGroupObjectHandlerProperty->setAccessible(true);
         $actionGroupObjectHandlerProperty->setValue(null, null);
 
         $mockOperationParser = $this->createMock(ActionGroupDataParser::class);
@@ -111,26 +111,23 @@ class ActionGroupObjectHandlerTest extends MagentoTestCase
         $mockObjectManagerInstance = $this->createMock(ObjectManager::class);
         $mockObjectManagerInstance
             ->method('create')
-            ->will(
-                $this->returnCallback(
-                    function (
-                        string $class,
-                        array $arguments = []
-                    ) use (
-                        $objectManager,
-                        $mockOperationParser
-                    ) {
-                        if ($class === ActionGroupDataParser::class) {
-                            return $mockOperationParser;
-                        }
-
-                        return $objectManager->create($class, $arguments);
+            ->willReturnCallback(
+                function (
+                    string $class,
+                    array $arguments = []
+                ) use (
+                    $objectManager,
+                    $mockOperationParser
+                ) {
+                    if ($class === ActionGroupDataParser::class) {
+                        return $mockOperationParser;
                     }
-                )
+
+                    return $objectManager->create($class, $arguments);
+                }
             );
 
         $property = new ReflectionProperty(ObjectManager::class, 'instance');
-        $property->setAccessible(true);
         $property->setValue(null, $mockObjectManagerInstance);
     }
 
@@ -142,11 +139,9 @@ class ActionGroupObjectHandlerTest extends MagentoTestCase
         parent::tearDownAfterClass();
 
         $actionGroupObjectHandlerProperty = new ReflectionProperty(ActionGroupObjectHandler::class, 'instance');
-        $actionGroupObjectHandlerProperty->setAccessible(true);
         $actionGroupObjectHandlerProperty->setValue(null, null);
 
         $objectManagerProperty = new ReflectionProperty(ObjectManager::class, 'instance');
-        $objectManagerProperty->setAccessible(true);
         $objectManagerProperty->setValue(null, null);
     }
 }

@@ -1,8 +1,9 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2017 Adobe
+ * All Rights Reserved.
  */
+
 declare(strict_types=1);
 
 namespace tests\unit\Magento\FunctionalTestFramework\DataGenerator\Persist;
@@ -132,11 +133,13 @@ class OperationDataArrayResolverTest extends MagentoTestCase
             ->withName('createChildType')
             ->withOperation('create')
             ->withType('childType')
-            ->withMetadata([
+            ->withMetadata(
+                [
                 'city' => 'string',
                 'state' => 'string',
                 'zip' => 'integer'
-            ])->build();
+                ]
+            )->build();
 
         // mock meta data object handler
         $this->mockOperationDefinitionObjectHandler($childOperationDefinition);
@@ -347,11 +350,13 @@ class OperationDataArrayResolverTest extends MagentoTestCase
             ->withName('createChildType')
             ->withOperation('create')
             ->withType('childType')
-            ->withMetadata([
+            ->withMetadata(
+                [
                 'city' => 'string',
                 'state' => 'string',
                 'zip' => 'integer'
-            ])->build();
+                ]
+            )->build();
 
         // mock meta data object handler
         $this->mockOperationDefinitionObjectHandler($childOperationDefinition);
@@ -400,20 +405,24 @@ class OperationDataArrayResolverTest extends MagentoTestCase
             ->withName('createchildType1')
             ->withOperation('create')
             ->withType('childType1')
-            ->withMetadata([
+            ->withMetadata(
+                [
                 'city' => 'string',
                 'zip' => 'integer'
-            ])->build();
+                ]
+            )->build();
 
         $child2OperationDefinition = $operationDefinitionBuilder
             ->withName('createchildType2')
             ->withOperation('create')
             ->withType('childType2')
-            ->withMetadata([
+            ->withMetadata(
+                [
                 'city' => 'string',
                 'zip' => 'integer',
                 'state' => 'string'
-            ])->build();
+                ]
+            )->build();
 
         $operationObjectCallback = function ($name) use ($child1OperationDefinition, $child2OperationDefinition) {
             switch ($name) {
@@ -552,7 +561,6 @@ class OperationDataArrayResolverTest extends MagentoTestCase
         }
 
         $property = new ReflectionProperty(DataObjectHandler::class, 'INSTANCE');
-        $property->setAccessible(true);
         $property->setValue(null, $instance);
     }
 
@@ -577,7 +585,6 @@ class OperationDataArrayResolverTest extends MagentoTestCase
         }
 
         $property = new ReflectionProperty(OperationDefinitionObjectHandler::class, 'INSTANCE');
-        $property->setAccessible(true);
         $property->setValue(null, $instance);
     }
 }

@@ -1,8 +1,9 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2018 Adobe
+ * All Rights Reserved.
  */
+
 declare(strict_types=1);
 
 namespace tests\unit\Magento\FunctionalTestFramework\Util;
@@ -38,11 +39,9 @@ class ModuleResolverTest extends MagentoTestCase
         TestLoggingUtil::getInstance()->clearMockLoggingUtil();
         
         $moduleResolverServiceInstance = new ReflectionProperty(ModuleResolverService::class, 'INSTANCE');
-        $moduleResolverServiceInstance->setAccessible(true);
         $moduleResolverServiceInstance->setValue(null, null);
 
         $mftfAppConfigInstance = new ReflectionProperty(MftfApplicationConfig::class, 'MFTF_APPLICATION_CONTEXT');
-        $mftfAppConfigInstance->setAccessible(true);
         $mftfAppConfigInstance->setValue(null, null);
     }
 
@@ -118,19 +117,19 @@ class ModuleResolverTest extends MagentoTestCase
         $moduleResolverService = $this->createPartialMock(ModuleResolverService::class, ['globRelevantPaths']);
         $moduleResolverService
             ->method('globRelevantPaths')
-            ->will(
-                $this->returnCallback(
-                    function ($codePath, $pattern) use ($modulePath) {
-                        if ($codePath === $modulePath && $pattern === '') {
-                            $this->fail(sprintf(
+            ->willReturnCallback(
+                function ($codePath, $pattern) use ($modulePath) {
+                    if ($codePath === $modulePath && $pattern === '') {
+                        $this->fail(
+                            sprintf(
                                 'Not expected parameter: \'%s\' when invoked method globRelevantPaths().',
                                 $modulePath
-                            ));
-                        }
-
-                        return [];
+                            )
+                        );
                     }
-                )
+
+                    return [];
+                }
             );
         $this->setMockResolverCreatorProperties($moduleResolverService);
         $resolver = ModuleResolver::getInstance();
@@ -150,7 +149,6 @@ class ModuleResolverTest extends MagentoTestCase
     {
         // clear test object handler value to inject parsed content
         $property = new ReflectionProperty(ModuleResolver::class, 'instance');
-        $property->setAccessible(true);
         $property->setValue(null, null);
 
         $this->mockForceGenerate(false);
@@ -174,27 +172,27 @@ class ModuleResolverTest extends MagentoTestCase
         $moduleResolverService = $this->createPartialMock(ModuleResolverService::class, ['globRelevantPaths']);
         $moduleResolverService
             ->method('globRelevantPaths')
-            ->will(
-                $this->returnCallback(
-                    function ($codePath, $pattern) use (&$invokedWithParams, $expectedParams) {
-                        foreach ($expectedParams as $key => $parameter) {
-                            list($expectedCodePath, $expectedPattern) = $parameter;
+            ->willReturnCallback(
+                function ($codePath, $pattern) use (&$invokedWithParams, $expectedParams) {
+                    foreach ($expectedParams as $key => $parameter) {
+                        list($expectedCodePath, $expectedPattern) = $parameter;
 
-                            if ($codePath === $expectedCodePath && $pattern === $expectedPattern) {
-                                if (isset($invokedWithParams[$key])) {
-                                    unset($invokedWithParams[$key]);
-                                }
-
-                                return [];
+                        if ($codePath === $expectedCodePath && $pattern === $expectedPattern) {
+                            if (isset($invokedWithParams[$key])) {
+                                unset($invokedWithParams[$key]);
                             }
-                        }
 
-                        $this->fail(sprintf(
+                            return [];
+                        }
+                    }
+
+                    $this->fail(
+                        sprintf(
                             'Not expected parameter: [%s] when invoked method globRelevantPaths().',
                             $codePath . ';' . $pattern
-                        ));
-                    }
-                )
+                        )
+                    );
+                }
             );
 
         $this->setMockResolverCreatorProperties($moduleResolverService);
@@ -292,19 +290,19 @@ class ModuleResolverTest extends MagentoTestCase
         );
         $moduleResolverService
             ->method('getComposerJsonTestModulePaths')
-            ->will(
-                $this->returnCallback(
-                    function ($codePaths) use ($expectedSearchPaths) {
-                        if ($codePaths === $expectedSearchPaths) {
-                            return [];
-                        }
+            ->willReturnCallback(
+                function ($codePaths) use ($expectedSearchPaths) {
+                    if ($codePaths === $expectedSearchPaths) {
+                        return [];
+                    }
 
-                        $this->fail(sprintf(
+                    $this->fail(
+                        sprintf(
                             'Not expected parameter: \'%s\' when invoked method getComposerJsonTestModulePaths().',
                             $codePaths
-                        ));
-                    }
-                )
+                        )
+                    );
+                }
             );
 
         $this->setMockResolverCreatorProperties($moduleResolverService);
@@ -377,19 +375,19 @@ class ModuleResolverTest extends MagentoTestCase
         );
         $moduleResolverService
             ->method('getComposerInstalledTestModulePaths')
-            ->will(
-                $this->returnCallback(
-                    function ($composerFile) use ($expectedSearchPath) {
-                        if ($composerFile === $expectedSearchPath) {
-                            return [];
-                        }
+            ->willReturnCallback(
+                function ($composerFile) use ($expectedSearchPath) {
+                    if ($composerFile === $expectedSearchPath) {
+                        return [];
+                    }
 
-                        $this->fail(sprintf(
+                    $this->fail(
+                        sprintf(
                             'Not expected parameter: \'%s\' when invoked method getComposerInstalledTestModulePaths().',
                             $composerFile
-                        ));
-                    }
-                )
+                        )
+                    );
+                }
             );
 
         $this->setMockResolverCreatorProperties($moduleResolverService);
@@ -826,12 +824,10 @@ class ModuleResolverTest extends MagentoTestCase
         $moduleResolverService = $this->createMock(ModuleResolverService::class);
         $moduleResolverService
             ->method('getAdminToken')
-            ->with(
-                $this->returnCallback(
-                    function () {
-                        $this->fail('Not expected to call method \'getAdminToken()\'.');
-                    }
-                )
+            ->willReturnCallback(
+                function () {
+                    $this->fail('Not expected to call method \'getAdminToken()\'.');
+                }
             );
 
         $this->setMockResolverCreatorProperties($moduleResolverService);
@@ -887,9 +883,9 @@ class ModuleResolverTest extends MagentoTestCase
      * Function used to set mock for Resolver properties.
      *
      * @param ModuleResolver $instance
-     * @param null $mockPaths
-     * @param null $mockModules
-     * @param array $mockBlockList
+     * @param null           $mockPaths
+     * @param null           $mockModules
+     * @param array          $mockBlockList
      *
      * @return void
      */
@@ -900,15 +896,12 @@ class ModuleResolverTest extends MagentoTestCase
         $mockBlockList = []
     ): void {
         $property = new ReflectionProperty(ModuleResolver::class, 'enabledModulePaths');
-        $property->setAccessible(true);
         $property->setValue($instance, $mockPaths);
 
         $property = new ReflectionProperty(ModuleResolver::class, 'enabledModules');
-        $property->setAccessible(true);
         $property->setValue($instance, $mockModules);
 
         $property = new ReflectionProperty(ModuleResolver::class, 'moduleBlocklist');
-        $property->setAccessible(true);
         $property->setValue($instance, $mockBlockList);
     }
 
@@ -922,12 +915,12 @@ class ModuleResolverTest extends MagentoTestCase
     private function setMockResolverCreatorProperties(?MockObject $moduleResolverService): void
     {
         $property = new ReflectionProperty(ModuleResolverService::class, 'INSTANCE');
-        $property->setAccessible(true);
         $property->setValue(null, $moduleResolverService);
     }
 
     /**
      * Mocks MftfApplicationConfig->forceGenerateEnabled()
+     *
      * @param bool $forceGenerate
      *
      * @return void
@@ -941,7 +934,6 @@ class ModuleResolverTest extends MagentoTestCase
             ->willReturn($forceGenerate);
 
         $property = new ReflectionProperty(MftfApplicationConfig::class, 'MFTF_APPLICATION_CONTEXT');
-        $property->setAccessible(true);
         $property->setValue(null, $mockConfig);
     }
 

@@ -1,8 +1,9 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2017 Adobe
+ * All Rights Reserved.
  */
+
 namespace Magento\FunctionalTestingFramework\Config;
 
 use Magento\FunctionalTestingFramework\ObjectManager\Config\Mapper\ArgumentParser;
@@ -209,7 +210,7 @@ class Converter implements \Magento\FunctionalTestingFramework\Config\ConverterI
             if (preg_match('/^\d+$/', $nodeValue)) {
                 $nodeValue = (int) $nodeValue;
             } else {
-                $nodeValue = (double) $nodeValue;
+                $nodeValue = (float) $nodeValue;
             }
         }
 

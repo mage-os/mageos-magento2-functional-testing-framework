@@ -1,13 +1,15 @@
 <?php
-    /**
-     * Copyright © Magento, Inc. All rights reserved.
-     * See COPYING.txt for license details.
-     */
+/**
+ * Copyright 2022 Adobe
+ * All Rights Reserved.
+ */
+
 declare(strict_types=1);
 
 namespace tests\unit\Magento\FunctionalTestFramework\Module\Util;
 
 use Magento\FunctionalTestingFramework\Module\Util\ModuleUtils;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class ModuleUtilTest extends TestCase
@@ -20,8 +22,8 @@ class ModuleUtilTest extends TestCase
      * @param string $removed
      *
      * @return void
-     * @dataProvider inDataProvider
      */
+    #[DataProvider('inDataProvider')]
     public function testUtf8SafeControlCharacterTrim(string $input, string $output, $removed): void
     {
         $util = new ModuleUtils();

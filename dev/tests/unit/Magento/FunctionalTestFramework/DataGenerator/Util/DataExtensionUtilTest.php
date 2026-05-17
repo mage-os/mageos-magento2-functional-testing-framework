@@ -1,8 +1,9 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2018 Adobe
+ * All Rights Reserved.
  */
+
 declare(strict_types=1);
 
 namespace tests\unit\Magento\FunctionalTestFramework\DataGenerator\Util;
@@ -135,7 +136,6 @@ class DataExtensionUtilTest extends MagentoTestCase
     private function setMockEntities($mockEntityData): void
     {
         $property = new ReflectionProperty(DataObjectHandler::class, 'INSTANCE');
-        $property->setAccessible(true);
         $property->setValue(null, null);
 
         $mockDataProfileSchemaParser = $this->createMock(DataProfileSchemaParser::class);
@@ -149,7 +149,6 @@ class DataExtensionUtilTest extends MagentoTestCase
             ->willReturn($mockDataProfileSchemaParser);
 
         $property = new ReflectionProperty(ObjectManager::class, 'instance');
-        $property->setAccessible(true);
         $property->setValue(null, $mockObjectManager);
     }
 }

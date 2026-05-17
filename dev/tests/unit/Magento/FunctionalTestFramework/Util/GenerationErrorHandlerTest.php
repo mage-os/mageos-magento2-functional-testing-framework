@@ -1,8 +1,9 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2020 Adobe
+ * All Rights Reserved.
  */
+
 declare(strict_types=1);
 
 namespace tests\unit\Magento\FunctionalTestFramework\Util;
@@ -10,6 +11,7 @@ namespace tests\unit\Magento\FunctionalTestFramework\Util;
 use ReflectionProperty;
 use tests\unit\Util\MagentoTestCase;
 use Magento\FunctionalTestingFramework\Util\GenerationErrorHandler;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Class GenerationErrorHandlerTest
@@ -234,15 +236,14 @@ class GenerationErrorHandlerTest extends MagentoTestCase
      * @param array  $errors
      *
      * @return void
-     * @dataProvider getAllErrorMessagesDataProvider
      */
+    #[DataProvider('getAllErrorMessagesDataProvider')]
     public function testGetAllErrorMessages(string $expectedErrMessages, array $errors): void
     {
         $handler = GenerationErrorHandler::getInstance();
         $handler->reset();
 
         $property = new ReflectionProperty(GenerationErrorHandler::class, 'errors');
-        $property->setAccessible(true);
         $property->setValue($handler, $errors);
 
         // Assert getAllErrorMessages
@@ -339,7 +340,6 @@ class GenerationErrorHandlerTest extends MagentoTestCase
     public function tearDown(): void
     {
         $property = new ReflectionProperty(GenerationErrorHandler::class, 'instance');
-        $property->setAccessible(true);
         $property->setValue(null, null);
     }
 }

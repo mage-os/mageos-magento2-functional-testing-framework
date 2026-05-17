@@ -1,9 +1,10 @@
 <?php
 // @codingStandardsIgnoreFile
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2019 Adobe
+ * All Rights Reserved.
  */
+
 declare(strict_types = 1);
 
 namespace Magento\FunctionalTestingFramework\Console;
@@ -85,7 +86,7 @@ class StaticChecksCommand extends Command
      * @return int
      * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->ioStyle = new SymfonyStyle($input, $output);
         try {

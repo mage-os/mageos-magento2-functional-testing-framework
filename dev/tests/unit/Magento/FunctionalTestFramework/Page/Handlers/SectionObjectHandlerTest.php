@@ -1,8 +1,9 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2017 Adobe
+ * All Rights Reserved.
  */
+
 declare(strict_types=1);
 
 namespace tests\unit\Magento\FunctionalTestFramework\Page\Handlers;
@@ -118,7 +119,6 @@ class SectionObjectHandlerTest extends MagentoTestCase
     private function mockSectionObjectHandlerWithData(array $mockData): void
     {
         $sectionObjectHandlerProperty = new ReflectionProperty(SectionObjectHandler::class, "INSTANCE");
-        $sectionObjectHandlerProperty->setAccessible(true);
         $sectionObjectHandlerProperty->setValue(null, null);
 
         $mockSectionParser = $this->createMock(SectionParser::class);
@@ -130,26 +130,23 @@ class SectionObjectHandlerTest extends MagentoTestCase
         $mockObjectManagerInstance = $this->createMock(ObjectManager::class);
         $mockObjectManagerInstance
             ->method('get')
-            ->will(
-                $this->returnCallback(
-                    function (
-                        string $class,
-                        array $arguments = []
-                    ) use (
-                        $objectManager,
-                        $mockSectionParser
-                    ) {
-                        if ($class === SectionParser::class) {
-                            return $mockSectionParser;
-                        }
-
-                        return $objectManager->create($class, $arguments);
+            ->willReturnCallback(
+                function (
+                    string $class,
+                    array $arguments = []
+                ) use (
+                    $objectManager,
+                    $mockSectionParser
+                ) {
+                    if ($class === SectionParser::class) {
+                        return $mockSectionParser;
                     }
-                )
+
+                    return $objectManager->create($class, $arguments);
+                }
             );
 
         $property = new ReflectionProperty(ObjectManager::class, 'instance');
-        $property->setAccessible(true);
         $property->setValue(null, $mockObjectManagerInstance);
     }
 
@@ -161,11 +158,9 @@ class SectionObjectHandlerTest extends MagentoTestCase
         parent::tearDownAfterClass();
 
         $sectionObjectHandlerProperty = new ReflectionProperty(SectionObjectHandler::class, "INSTANCE");
-        $sectionObjectHandlerProperty->setAccessible(true);
         $sectionObjectHandlerProperty->setValue(null, null);
 
         $objectManagerProperty = new ReflectionProperty(ObjectManager::class, 'instance');
-        $objectManagerProperty->setAccessible(true);
         $objectManagerProperty->setValue(null, null);
 
         TestLoggingUtil::getInstance()->clearMockLoggingUtil();

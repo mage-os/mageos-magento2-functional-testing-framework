@@ -1,7 +1,7 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2017 Adobe
+ * All Rights Reserved.
  */
 
 namespace Magento\FunctionalTestingFramework\DataGenerator\Objects;
@@ -38,6 +38,7 @@ class EntityDataObjectTest extends MagentoTestCase
 {
     /**
      * Before test functionality
+     *
      * @return void
      */
     public function setUp(): void
@@ -139,6 +140,7 @@ class EntityDataObjectTest extends MagentoTestCase
 
     /**
      * After class functionality
+     *
      * @return void
      */
     public static function tearDownAfterClass(): void

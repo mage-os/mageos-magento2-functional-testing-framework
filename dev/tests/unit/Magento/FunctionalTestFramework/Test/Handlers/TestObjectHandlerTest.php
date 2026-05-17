@@ -1,8 +1,9 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2018 Adobe
+ * All Rights Reserved.
  */
+
 declare(strict_types=1);
 
 namespace tests\unit\Magento\FunctionalTestFramework\Test\Handlers;
@@ -380,7 +381,7 @@ class TestObjectHandlerTest extends MagentoTestCase
     /**
      * Mock test object handler.
      *
-     * @param array $data
+     * @param array      $data
      * @param array|null $paths
      *
      * @return void
@@ -392,7 +393,6 @@ class TestObjectHandlerTest extends MagentoTestCase
         }
         // clear test object handler value to inject parsed content
         $property = new ReflectionProperty(TestObjectHandler::class, 'testObjectHandler');
-        $property->setAccessible(true);
         $property->setValue(null, null);
 
         $mockDataParser = $this->createMock(TestDataParser::class);
@@ -414,39 +414,35 @@ class TestObjectHandlerTest extends MagentoTestCase
         $objectManagerMockInstance = $this->createMock(ObjectManager::class);
         $objectManagerMockInstance
             ->method('create')
-            ->will(
-                $this->returnCallback(
-                    function (
-                        $class,
-                        $arguments = []
-                    ) use (
-                        $objectManager,
-                        $mockDataParser,
-                        $mockConfig,
-                        $mockResolver
-                    ) {
-                        if ($class === TestDataParser::class) {
-                            return $mockDataParser;
-                        }
-                        if ($class === MftfApplicationConfig::class) {
-                            return $mockConfig;
-                        }
-                        if ($class === ModuleResolver::class) {
-                            return $mockResolver;
-                        }
-
-                        return $objectManager->create($class, $arguments);
+            ->willReturnCallback(
+                function (
+                    $class,
+                    $arguments = []
+                ) use (
+                    $objectManager,
+                    $mockDataParser,
+                    $mockConfig,
+                    $mockResolver
+                ) {
+                    if ($class === TestDataParser::class) {
+                        return $mockDataParser;
                     }
-                )
+                    if ($class === MftfApplicationConfig::class) {
+                        return $mockConfig;
+                    }
+                    if ($class === ModuleResolver::class) {
+                        return $mockResolver;
+                    }
+
+                    return $objectManager->create($class, $arguments);
+                }
             );
 
         $objectManagerProperty = new ReflectionProperty(ObjectManager::class, 'instance');
-        $objectManagerProperty->setAccessible(true);
         $objectManagerProperty->setValue(null, $objectManagerMockInstance);
 
         $resolver = ModuleResolver::getInstance();
         $property = new ReflectionProperty(ModuleResolver::class, 'enabledModuleNameAndPaths');
-        $property->setAccessible(true);
         $property->setValue($resolver, $paths);
     }
 

@@ -1,6 +1,118 @@
 Magento Functional Testing Framework Changelog
 ================================================
 
+5.3.0
+---------
+### Enhancement
+* Added Symfony 6.4 LTS support alongside 7.4
+* Provided support for chrome 143
+
+5.2.0
+---------
+### Enhancements
+* Provided support for PHP 8.4
+* Bumped symfony/console to 7.4
+* Bumped symfony/intl to 7.4
+* Bumped symfony/string to 7.4
+* Bumped symfony/dotenv to 7.4
+* Bumped symfony/finder to 7.4
+* Bumped symfony/mime to 7.4
+* Bumped symfony/process to 7.4
+* Added support for symfony ^7.4
+
+5.1.0
+---------
+### Enhancements
+* Bumped aws/aws-sdk-php package to 3.362.1
+* Bumped codeception/module-asserts to 3.2.1
+* Bumped composer/composer to 2.9.2
+* Bumped guzzlehttp/guzzle to 7.10.0
+* Bumped laminas/laminas-diactoros to 3.8.0
+* Bumped mustache/mustache to 3.0.0
+* Bumped nikic/php-parser to 5.6.2
+* Bumped symfony/console to 7.3.6
+* Bumped symfony/string to 7.3.4
+* Bumped symfony/dotenv to 7.3.2
+* Bumped symfony/finder to 7.3.5
+* Bumped symfony/http-foundation to 7.3.7
+* Bumped symfony/mime to 7.3.4
+* Bumped symfony/process to 7.3.4
+* Bumped squizlabs/php_codesniffer to 4.0.12025
+* Bumped php-coveralls/php-coveralls to 2.9.0
+* Added support for symfony ^7.0
+
+5.0.6
+---------
+### Fixes
+* Updated copyright check to use the new Adobe copyright.
+* Resolved errors caused by whitespace-only comments.
+* Addressed deprecation warnings from spomky-labs/otphp.
+
+5.0.5
+---------
+### Enhancements
+* Bumped aws/aws-sdk-php package to 3.344.6
+* Bumped composer/composer to 2.8.9
+* Bumped codeception/codeception to 5.3.2
+* Bumped codeception/module-asserts to 3.2.0
+* Bumped csharpru/vault-php to 4.4.1
+* Bumped laminas/laminas-diactoros to 3.6.0
+* Bumped nikic/php-parser to 5.5.0
+* Bumped php-coveralls/php-coveralls to 2.8.0
+* Bumped behat/gherkin to 4.14.0
+* Bumped symfony/css-selector to 7.3.0
+* Bumped symfony/mime to 6.4.21
+* Bumped symfony/string to 7.3.0
+* Bumped symfony/event-dispatcher to 7.3.0
+* Bumped symfony/filesystem to 7.3.0
+* Bumped symfony/console to 6.4.22
+* Bumped symfony/service-contracts to 3.6.0
+
+5.0.4
+---------
+### Enhancements
+* Bumped aws/aws-sdk-php package to 3.342.28
+* Bumped composer/composer to 2.8.8
+* Bumped codeception/codeception to 5.2.1
+* Bumped codeception/module-webdriver to 4.0.3
+* Bumped guzzlehttp/guzzle to 7.9.3
+* Bumped monolog/monolog to 3.9.0
+* Updated cache package version to @v4
+
+5.0.3
+---------
+### Fixes
+* Allowed additional actions to read from credentials file to fix page builder failures.
+* Added support for chrome 131
+
+5.0.2
+---------
+### Fixes
+* Removed support for chrome 131
+
+5.0.1
+---------
+### Enhancement
+* Provided support for chrome 131
+
+5.0.0
+---------
+### Enhancements
+* Provided support for PHP 8.4
+* Dropped the support for PHP 8.1
+* Removed unwanted dependent packages
+* Removed the dependency of codeception/module-sequence and implemented internal adjustments to address PHP 8.4 deprecations.
+
+4.8.3
+---------
+### Enhancements
+* Bumped aws/aws-sdk-php package to 3.323.4
+* Bumped composer/composer to 2.8.1
+* Bumped laminas/laminas-diactoros to 3.4.1
+* Bumped nikic/php-parser to 5.3.1
+* Bumped squizlabs/php_codesniffer to 3.10.3
+* Remove any unused files remaining after upgrading Codeception.
+
 4.8.2
 ---------
 ### Enhancements
@@ -35,16 +147,16 @@ Magento Functional Testing Framework Changelog
 4.7.2
 ---------
 ### Enhancements
-* Fail static test when introduced filename does not equal the MFTF object name 
+* Fail static test when introduced filename does not equal the MFTF object name
   contained within.
 
 4.7.1
 ---------
 ### Enhancements
 *  Bumped all symfony dependencies to `^6.0
-*  Removed abandoned package codacy/coverage 
+*  Removed abandoned package codacy/coverage
 *  Removed abandoned package sebastian/phpcpd
-*  Bumped monolog/monolog to ^3.0 
+*  Bumped monolog/monolog to ^3.0
 *  Bumped nikic/php-parser to ^5.0
 
 4.7.0

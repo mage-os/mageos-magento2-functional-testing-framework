@@ -1,7 +1,7 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2018 Adobe
+ * All Rights Reserved.
  */
 
 namespace tests\unit\Magento\FunctionalTestFramework\Util\Validation;
@@ -63,7 +63,7 @@ class NameValidationUtilTest extends MagentoTestCase
     /**
      * Method which takes the name of the test expecting an invalid char. Runs the validation method against name.
      *
-     * @param string $testName
+     * @param  string $testName
      * @return void
      */
     private function validateBlocklistedTestName($testName)

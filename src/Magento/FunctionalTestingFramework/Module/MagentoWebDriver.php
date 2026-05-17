@@ -1,7 +1,7 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Copyright 2017 Adobe
+ * All Rights Reserved.
  */
 
 namespace Magento\FunctionalTestingFramework\Module;
@@ -862,6 +862,27 @@ class MagentoWebDriver extends WebDriver
             throw new TestFrameworkException("\nFailed to decrypt magentoCLI command {$command}\n");
         }
         return $this->magentoCLI($decryptedCommand, $timeout, $arguments);
+    }
+
+    /**
+     * Function used to verify sensitive credentials in the data, data is decrypted immediately prior to see to avoid
+     * exposure in console or log.
+     *
+     * @param string $field
+     * @param string $value
+     * @return void
+     * @throws TestFrameworkException
+     */
+    public function seeInSecretField(string $field, string $value):void
+    {
+        // to protect any secrets from being printed to console the values are executed only at the webdriver level as a
+        // decrypted value
+
+        $decryptedValue = CredentialStore::getInstance()->decryptSecretValue($value);
+        if ($decryptedValue === false) {
+            throw new TestFrameworkException("\nFailed to decrypt value {$value} for field {$field}\n");
+        }
+        $this->seeInField($field, $decryptedValue);
     }
 
     /**

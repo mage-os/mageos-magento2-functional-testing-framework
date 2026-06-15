@@ -1,6 +1,17 @@
 Magento Functional Testing Framework Changelog
 ================================================
 
+6.0.1
+---------
+### Fixes
+* Added uniqueness validation for step key in testsuite.
+* Removed unnecessary chrome configuration flags
+
+6.0.0
+---------
+### Enhancement
+* Bumped phpunit/phpunit to 12.0
+
 5.3.0
 ---------
 ### Enhancement
